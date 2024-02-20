@@ -7,7 +7,6 @@ ARG DB_NAME\
 RUN apk update && apk add --no-cache mariadb mariadb-client
 
 COPY ./requirements/mariadb/conf/* /etc/my.cnf.d/
-COPY ./requirements/mariadb/conf/* /etc/my.cnf.d/
 COPY ./requirements/mariadb/tools/* /tmp/
 
 RUN sh /tmp/install_database.sh && \
