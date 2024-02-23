@@ -1,16 +1,16 @@
 version: '3'
 
 services:
-  #  nginx:
-  #    build:
-  #      context: .
-  #      dockerfile: requirements/nginx/Dockerfile
-  #    container_name: nginx
-  #    ports:
-  #      - "443:443"
-  #    volumes:
-  #      - ./requirements/nginx/www/:/var/www/
-  #    restart: always
+  nginx:
+    build:
+      context: .
+      dockerfile: requirements/nginx/Dockerfile
+    container_name: nginx
+    ports:
+      - "443:443"
+    networks:
+      - inception
+    restart: always
 
   mariadb:
     build:
@@ -26,7 +26,32 @@ services:
       - "3306:3306"
     volumes:
       - db-volume:/var/lib/mysql
+    networks:
+      - inception
     restart: always
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: requirements/wordpress/Dockerfile
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    volumes:
+      - wp-volume:/var/www/
+    networks:
+      - inception
+    restart: always
+    
 
 volumes:
   db-volume:
+  wp-volume:
+
+networks:
+     inception:
+         driver: bridge
