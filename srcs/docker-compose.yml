@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: requirements/nginx/Dockerfile
+      args:
+        DOMAIN_NAME: ${DOMAIN_NAME}
+        CERT_: ${CERT_}
     container_name: nginx
     ports:
       - "443:443"
