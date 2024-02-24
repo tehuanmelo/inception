@@ -4,6 +4,9 @@
 
 This project delves into the world of system administration, specifically focusing on Docker containerization and Docker Compose orchestration. You'll construct a multi-service infrastructure within a virtual machine environment, honing your skills in both technologies and gaining valuable practical experience.
 
+## Project Description
+The Inception project focuses on creating a robust infrastructure for deploying various services, including MariaDB, Nginx, WordPress. The project leverages Docker containers to ensure portability, isolation, and scalability.
+
 
 ### Key Technologies
 
@@ -87,6 +90,28 @@ This project delves into the world of system administration, specifically focusi
 
 ### Always Up and Running:
 * No worries about crashes! The containers are configured to restart automatically `always`, ensuring the infrastructure stays up and running.
+
+## Usage
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/tehuanmelo/inception.git
+    cd inception
+    ```
+
+2. Customize the `.env` file with your desired configurations:
+    ```bash
+    srcs/.env
+    ```
+
+3. Build and run the project using Docker Compose:
+    ```bash
+    make
+    ```
+
+4. Access your services at.
+    ```bash
+    https://localhost
+    ```
 
 
 
