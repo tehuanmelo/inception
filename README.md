@@ -17,41 +17,50 @@ This project delves into the world of system administration, specifically focusi
 ## The base environment:
 
 ### Virtual Machine:
-* Following the 42 school's guide to set up a virtual environment, the foundation of our project. I've choose Debian Bullseye as the base software with these apps installed:
+* Debian Bullseye is the base software with these apps installed:
 
     - `sudo` (Gatekeeper): Grants you access to control your system, like a wise advisor unlocking the right tools.
 
-    * `ufw` (Firewall Guardian): Keeps your virtual city safe by filtering incoming and outgoing traffic, just like a watchful knight.
+    - `ufw` (Firewall Guardian): Keeps your virtual city safe by filtering incoming and outgoing traffic, just like a watchful knight.
 
-    * `docker` (Container Architect): Builds tiny, self-contained worlds (containers) for each service, ensuring smooth operation and resource efficiency.
+    - `docker` (Container Architect): Builds tiny, self-contained worlds (containers) for each service, ensuring smooth operation and resource efficiency.
 
-    * `docker-compose` (Orchestrator): Like a conductor, docker-compose brings all your services together, ensuring they work in perfect harmony.
+    - `docker-compose` (Orchestrator): Like a conductor, docker-compose brings all your services together, ensuring they work in perfect harmony.
 
-    * `make` (Automation Wizard): Waves its magic wand to automate repetitive tasks, saving you time and effort. 
+    - `make` (Automation Wizard): Waves its magic wand to automate repetitive tasks, saving you time and effort. 
 
 ### Project Structure:
 
 ```
-|______ srcs
-          |---------- docker-compose.yml
-          |---------- .env
-          |---------- requirements
-                  |---------- tools
-                  |---------- mariadb
-                          |---------- conf
-                          |---------- Dockerfile
-                          |---------- .dockerignore
-                          |---------- tools
-                  |---------- nginx
-                          |---------- conf
-                          |---------- Dockerfile
-                          |---------- .dockerignore
-                          |---------- tools
-                  |---------- wordpress
-                          |---------- conf
-                          |---------- Dockerfile
-                          |---------- .dockerignore
-                          |---------- tools
+.
+├── Makefile
+└── srcs
+    ├── docker-compose.yml
+    └── requirements
+        ├── bonus
+        ├── mariadb
+        │   ├── conf
+        │   │   ├── docker.cnf
+        │   │   └── mariadb-server.cnf
+        │   ├── Dockerfile
+        │   └── tools
+        │       └── create_database.sh
+        ├── nginx
+        │   ├── conf
+        │   │   └── nginx.conf
+        │   ├── Dockerfile
+        │   └── tools
+        │       ├── generate_keys.sh
+        │       ├── nginx.crt
+        │       └── nginx.key
+        ├── tools
+        │   └── create_volumes.sh
+        └── wordpress
+            ├── conf
+            ├── Dockerfile
+            └── tools
+                ├── install-php.sh
+                └── install-wp.sh
 ```
 
 ## Infrastructure:
@@ -75,6 +84,7 @@ This project delves into the world of system administration, specifically focusi
 
 ### Network Connection: 
 * A dedicated Docker network `inception`, built with `docker-network`, is created to facilitates seamless communication.
+
 ### Always Up and Running:
 * No worries about crashes! The containers are configured to restart automatically `always`, ensuring the infrastructure stays up and running.
 
