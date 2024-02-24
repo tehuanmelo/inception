@@ -2,19 +2,15 @@
 
 if [ ! -d /var/www/ ]; then
     mkdir -p /var/www/
-    cd /var/www/
 fi
 
 cd /var/www/
-chmod -R 0777 ./
 
 wget https://wordpress.org/latest.zip
 unzip latest.zip
-rm -f latest.zip
-cp -r ./wordpress/* .
-rm -rf ./wordpress
+cp -rf wordpress/* ./
+rm -rf wordpress latest.zip
 
-# chown -R www-data:www-data ./wordpress
 
 if [ ! -f ./wp-config.php ]; then
     cp ./wp-config-sample.php ./wp-config.php
@@ -23,3 +19,5 @@ if [ ! -f ./wp-config.php ]; then
     sed -i "s|password_here|${DB_PASS}|g" ./wp-config.php
     sed -i "s|localhost|mariadb|g" ./wp-config.php
 fi
+
+chmod -R 777 wp-content/

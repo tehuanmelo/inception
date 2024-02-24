@@ -47,10 +47,17 @@ services:
       - inception
     restart: always
     
-
 volumes:
   db-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/volumes/mariadb
   wp-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/volumes/wordpress
 
 networks:
      inception:

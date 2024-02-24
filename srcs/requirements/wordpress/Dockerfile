@@ -7,9 +7,8 @@ ARG DB_NAME\
 
 COPY ./requirements/wordpress/tools/* ./
 
-RUN /bin/sh install-php.sh && rm install-php.sh && \
-    /bin/sh install-wp.sh && rm install-wp.sh && \
-    rm -f /var/cache/apk/*
+RUN sh install-php.sh && rm install-php.sh
+RUN sh install-wp.sh && rm install-wp.sh
 
 CMD ["/usr/sbin/php-fpm82", "-F"]
 
