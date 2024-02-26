@@ -6,13 +6,16 @@ services:
       context: .
       dockerfile: requirements/nginx/Dockerfile
       args:
-        DOMAIN_NAME: ${DOMAIN_NAME}
         CERT_: ${CERT_}
     container_name: nginx
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     networks:
       - inception
+    volumes:
+      - wp-volume:/var/www/
     restart: always
 
   mariadb:
@@ -27,10 +30,10 @@ services:
     container_name: mariadb
     ports:
       - "3306:3306"
-    volumes:
-      - db-volume:/var/lib/mysql
     networks:
       - inception
+    volumes:
+      - db-volume:/var/lib/mysql
     restart: always
 
   wordpress:
@@ -44,24 +47,25 @@ services:
     container_name: wordpress
     depends_on:
       - mariadb
-    volumes:
-      - wp-volume:/var/www/
     networks:
       - inception
+    volumes:
+      - wp-volume:/var/www/
     restart: always
-    
+
 volumes:
-  db-volume:
-    driver_opts:
-      o: bind
-      type: none
-      device: /home/${USER}/volumes/mariadb
   wp-volume:
     driver_opts:
       o: bind
       type: none
       device: /home/${USER}/volumes/wordpress
 
+  db-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/volumes/mariadb
+
 networks:
-     inception:
-         driver: bridge
+    inception:
+        driver: bridge

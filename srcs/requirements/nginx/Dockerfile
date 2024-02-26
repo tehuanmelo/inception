@@ -1,13 +1,12 @@
 FROM alpine:3.18
 
-ARG DOMAIN_NAME\
-    CERT_
+ARG CERT_
 
-RUN apk update && apk add nginx openssl
-
-EXPOSE 443
+RUN	apk update && apk upgrade && apk add --no-cache nginx
 
 COPY ./requirements/nginx/conf/ /etc/nginx/http.d/
 COPY ${CERT_} /etc/nginx/ssl/
+
+EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]

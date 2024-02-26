@@ -1,19 +1,17 @@
 FROM alpine:3.18
 
-ARG DB_NAME\
-     DB_PASS\
-     DB_ROOT\
-     DB_USER
+ARG DB_NAME \
+    DB_USER \
+    DB_PASS
 
 RUN apk update && apk add --no-cache mariadb mariadb-client
 
-COPY ./requirements/mariadb/conf/* ./etc/my.cnf.d/
-COPY ./requirements/mariadb/tools/* ./
-
-RUN sh ./create_database.sh && rm -f create_database.sh && \
-     rm -f /var/cache/apk/*
-
 EXPOSE 3306
 
+COPY requirements/mariadb/conf/create_database.sh .
+
+RUN sh create_database.sh && rm create_database.sh
+
 USER mysql
+
 CMD ["/usr/bin/mysqld", "--skip-log-error"]

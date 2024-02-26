@@ -1,27 +1,23 @@
-
-name = inception
+NAME = inception
 all:
-	@sh ./srcs/requirements/tools/create_volumes.sh
+	@sh srcs/requirements/tools/make_volumes.sh
 	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
 
 build:
-	@sh ./srcs/requirements/tools/create_volumes.sh
+	@sh srcs/requirements/tools/make_volumes.sh
 	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
 
 down:
-	@docker-compose -f ./srcs/docker-compose.yml down
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env down
 
 re: down build
 
 clean: down
-	@docker system prune
-	@docker container prune
-	@docker network prune
-	@docker volume prune
+	@docker system prune --all
+	@sudo rm -rf ~/volumes
 
-fclean: down
-	@docker system prune --all --force
-	@docker container prune --force
+fclean: clean
+	@docker system prune --all --force --volumes
 	@docker network prune --force
 	@docker volume prune --force
 	@docker volume rm srcs_db-volume

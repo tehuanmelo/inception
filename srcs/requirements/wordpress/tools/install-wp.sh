@@ -11,7 +11,6 @@ unzip latest.zip
 cp -rf wordpress/* ./
 rm -rf wordpress latest.zip
 
-
 if [ ! -f ./wp-config.php ]; then
     cp ./wp-config-sample.php ./wp-config.php
     sed -i "s|database_name_here|${DB_NAME}|g" ./wp-config.php
