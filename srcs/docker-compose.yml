@@ -5,13 +5,11 @@ services:
     build:
       context: .
       dockerfile: requirements/nginx/Dockerfile
-      args:
-        CERT_: ${CERT_}
     container_name: nginx
-    depends_on:
-      - wordpress
     ports:
       - "443:443"
+    depends_on:
+      - wordpress
     networks:
       - inception
     volumes:
@@ -42,21 +40,6 @@ services:
     build:
       context: .
       dockerfile: requirements/wordpress/Dockerfile
-      # args:
-      #   DB_NAME: ${DB_NAME}
-      #   DB_ROOT: ${DB_ROOT}
-      #   DB_USER: ${DB_USER}
-      #   DB_PASS: ${DB_PASS}
-      #   DOMAIN_NAME: ${DOMAIN_NAME}
-      #   TITLE: ${TITLE}
-      #   ADM_USER: ${ADM_USER}
-      #   ADM_EMAIL: ${ADM_EMAIL}
-      #   ADM_PASS: ${ADM_PASS}
-      #   WP_USER: ${WP_USER}
-      #   WP_USER_EMAIL: ${WP_USER_EMAIL}
-      #   WP_USER_PASS: ${WP_USER_PASS}
-    env_file:
-      - .env
     container_name: wordpress
     depends_on:
       - mariadb
@@ -65,6 +48,8 @@ services:
     volumes:
       - wp-volume:/var/www/
     restart: always
+    env_file:
+      - .env
 
 volumes:
   wp-volume:

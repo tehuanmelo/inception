@@ -1,12 +1,12 @@
 FROM alpine:3.18
 
-ARG CERT_
-
-RUN	apk update && apk upgrade && apk add --no-cache nginx
+RUN	apk update && apk upgrade && apk add --no-cache nginx openssl
 
 COPY ./requirements/nginx/conf/ /etc/nginx/http.d/
-COPY ./requirements/nginx/tools/ /etc/nginx/ssl/
+
+COPY ./requirements/nginx/tools/create_ssl.sh /
+RUN chmod 777 /create_ssl.sh
 
 EXPOSE 443
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["sh", "create_ssl.sh"]

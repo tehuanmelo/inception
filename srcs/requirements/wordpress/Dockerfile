@@ -1,22 +1,31 @@
-# FROM alpine:3.18
+FROM alpine:3.18
 
-# ARG DB_NAME\
-#     DB_USER\
-#     DB_PASS\
-#     DB_ROOT\
-#     TITLE\
-#     ADM_USER\
-#     ADM_EMAIL\
-#     ADM_PASS\
-#     WP_USER\
-#     WP_USER_EMAIL\
-#     WP_USER_PASS
+RUN apk add --no-cache \
+    php \
+    php-curl \
+    php-fpm \
+    php-bcmath \
+    php-gd php-soap \
+    php-zip php-curl \
+    php-mbstring \
+    php-mysqlnd \
+    php-gd \
+    php-xml \
+    php-intl \
+    php-zip \
+    php-mysqli \
+    php-pdo_mysql \
+    php-phar \
+    curl \
+    unzip \
+    openrc\
+    wget
 
-# RUN apk update && apk upgrade && apk add curl
+RUN sed -i "s|listen = 127.0.0.1:9000|listen = 0.0.0.0:9000|g" /etc/php81/php-fpm.d/www.conf && \   
+    sed -i "s|;listen.owner = nobody|listen.owner = root|g" /etc/php81/php-fpm.d/www.conf && \
+    sed -i "s|;listen.group = nobody|listen.group = root|g" /etc/php81/php-fpm.d/www.conf 
 
-# COPY ./requirements/wordpress/tools/ ./
-# RUN sh install-php.sh 
-# RUN sh install-wp.sh 
+COPY ./requirements/wordpress/tools/ /
+RUN chmod 777 install-wp.sh
 
-
-# CMD ["/usr/sbin/php-fpm81", "-F"]
+CMD ["sh", "install-wp.sh"]
