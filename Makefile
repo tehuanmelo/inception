@@ -14,14 +14,12 @@ re: down build
 
 clean: down
 	@docker system prune --all
+	@docker volume rm $$(docker volume ls -q)
 	@sudo rm -rf ~/volumes
 
 fclean: clean
 	@docker system prune --all --force --volumes
 	@docker network prune --force
 	@docker volume prune --force
-	@docker volume rm srcs_db-volume
-	@docker volume rm srcs_wp-volume
-	@sudo rm -rf ~/volumes
 
 .PHONY	: all build down re clean fclean
