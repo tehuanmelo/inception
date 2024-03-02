@@ -9,7 +9,7 @@ RUN apk update && apk add --no-cache mariadb mariadb-client
 
 EXPOSE 3306
 
-COPY requirements/mariadb/conf/create_database.sh .
+COPY requirements/mariadb/tools/create_database.sh .
 
 RUN sh create_database.sh && rm create_database.sh
 
