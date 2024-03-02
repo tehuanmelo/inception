@@ -21,6 +21,7 @@ RUN apk add --no-cache \
     openrc\
     wget
 
+# set php-fpm to listen on any address and give it root privileges 
 RUN sed -i "s|listen = 127.0.0.1:9000|listen = 0.0.0.0:9000|g" /etc/php81/php-fpm.d/www.conf && \   
     sed -i "s|;listen.owner = nobody|listen.owner = root|g" /etc/php81/php-fpm.d/www.conf && \
     sed -i "s|;listen.group = nobody|listen.group = root|g" /etc/php81/php-fpm.d/www.conf 
