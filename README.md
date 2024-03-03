@@ -136,5 +136,31 @@ For example, if your login is ***tde-melo***, `tde-melo.42.fr` will redirect to 
         ```
         in your preferred browser.
 
+## Options
+
+1. ```make stop```
+    - Stop all the running containers 
+2. ```make start```
+    - Start the stoped containers
+3. ```make down```
+    - Stop all running containers
+    - Remove all stoped containers
+    - Remove all images
+    - Remove all volumes and network
+4. ```make build```
+    - Build the images
+5. ```make re```
+    - Remove all the docker content like images, containers, volumes, all the data and rebuild it
+6. ```make clean```
+    - Stop all running containers
+    - Remove all stoped containers
+    - Remove all images
+    - Remove the network
+    - Clean all the data
+6. ```make fclean```
+    - Calls clean
+    - Force delete anything that could not be deleted by clean
+    - Remove the local volumes
+
 
 
