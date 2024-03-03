@@ -1,27 +1,38 @@
 NAME = inception
-all:
-	@sh srcs/requirements/tools/make_volumes.sh
-	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
+all: create_volumes build up
 
-build:
-	@sh srcs/requirements/tools/make_volumes.sh
-	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
+up:
+	@docker-compose -f ./srcs/docker-compose.yml up -d
 
 down:
-	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env down
+	@docker-compose -f ./srcs/docker-compose.yml down -v
 
-re: down build
+start:
+	@docker-compose -f ./srcs/docker-compose.yml start
 
-clean: down
-	@docker system prune --all
-	@docker volume rm $$(docker volume ls -q)
-	@docker network prune
-	@sudo rm -rf ~/volumes
+stop:
+	@docker-compose -f ./srcs/docker-compose.yml stop
 
-fclean: clean
+build: create_volumes
+	@docker-compose -f ./srcs/docker-compose.yml build
+
+re: down build up
+
+clean: down clean_volumes
+
+fclean: clean remove_volumes
 	@docker system prune --all --force
 	@docker network prune --force
 	@docker volume prune --force
-	@sudo rm -rf ~/volumes
 
-.PHONY	: all build down re clean fclean
+create_volumes:
+	@sh srcs/requirements/mariadb/tools/create_volumes.sh
+
+clean_volumes:
+	@sudo rm -rf ~/data/mariadb/*
+	@sudo rm -rf ~/data/wordpress/*
+
+remove_volumes:
+	@sudo rm -rf ~/data
+
+.PHONY	: all up start stop build down re clean fclean
